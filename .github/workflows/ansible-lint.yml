@@ -5,6 +5,7 @@ on:
     inputs:
       repository:
         required: true
+        type: string
         description: 'Repository name to push changes'
 
 jobs:
