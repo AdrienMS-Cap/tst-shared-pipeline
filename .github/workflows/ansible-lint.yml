@@ -45,7 +45,10 @@ on:
         required: true
         type: string
         description: 'Repository name to lint'
-
+      token:
+        required: true
+        type: string
+        description: 'Token for repository access'
 jobs:
   lint:
     runs-on: ubuntu-latest
