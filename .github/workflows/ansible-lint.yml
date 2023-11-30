@@ -25,9 +25,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install ansible-lint
+
     - name: List Files to be Linted
       run: |
-        echo "Listing all YAML files that will be linted:"
-        find . -name '*.yml' -or -name '*.yaml'        
+        echo "Listing all YAML files that will be linted, excluding '.github' folder:"
+        find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/'
+
     - name: Run Ansible Lint
       run: ansible-lint
