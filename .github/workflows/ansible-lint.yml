@@ -40,6 +40,11 @@ name: Ansible Lint
 
 on:
   workflow_call:
+    inputs:
+      repository:
+        required: true
+        type: string
+        description: 'Repository name to lint'
 
 jobs:
   lint:
@@ -47,16 +52,17 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-
+      with:
+        repository: ${{ github.event.inputs.repository }}
+        ref: main
+        token: ${{ secrets.PAT_MAX }}
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-
+        python-version: '3.x' # or any specific version you need
     - name: Install Ansible Lint
       run: |
         python -m pip install --upgrade pip
         pip install ansible-lint
-  
     - name: Run Ansible Lint
       run: ansible-lint
