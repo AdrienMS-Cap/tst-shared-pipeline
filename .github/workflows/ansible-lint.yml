@@ -6,7 +6,7 @@ on:
       repository:
         required: true
         type: string
-        description: 'Repository name to push changes'
+        description: 'Repository name to perform ansible-lint'
 
 jobs:
   lint:
