@@ -44,26 +44,24 @@ jobs:
           git fetch origin
           git merge origin/main --no-ff --no-commit -X theirs --allow-unrelated-histories
 
-      - name: Push to Main-Production
+      - name: Push to Branch
         if: success()
         run: |
-          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
-            BRANCH=${{ github.head_ref }}
-          else
-            BRANCH=${GITHUB_REF#refs/heads/}
-          fi        
+          BRANCH_NAME=${{ github.event.inputs.branch }}
+          echo "Pushing to branch: $BRANCH_NAME"
+
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
           
           # Check for changes
           git fetch origin
-          git merge origin/$BRANCH --no-ff --no-commit -X theirs --allow-unrelated-histories
+          git merge origin/$BRANCH_NAME --no-ff --no-commit -X theirs --allow-unrelated-histories
 
           # Only commit if there are changes
           if ! git diff --quiet
           then
-            git commit -m "Merged branch $BRANCH into main-production"
-            git push https://${{ secrets.PAT_MAX }}@github.com/AdrienMS-Cap/tst-repo1.git main-production
+            git commit -m "Merged branch $BRANCH_NAME into main-production"
+            git push https://${{ secrets.PAT_MAX }}@github.com/${{ github.event.inputs.repository }}/main-production
           else
-            echo "No changes to commit."
+            echo "No changes to commit on branch $BRANCH_NAME."
           fi
