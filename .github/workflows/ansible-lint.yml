@@ -54,5 +54,16 @@ jobs:
           fi        
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
-          git commit -m "Merged branch main into main-production"
-          git push https://${{ secrets.PAT_MAX}}@github.com/AdrienMS-Cap/tst-repo1.git main-production
+          
+          # Check for changes
+          git fetch origin
+          git merge origin/$BRANCH --no-ff --no-commit -X theirs --allow-unrelated-histories
+
+          # Only commit if there are changes
+          if ! git diff --quiet
+          then
+            git commit -m "Merged branch $BRANCH into main-production"
+            git push https://${{ secrets.PAT_MAX }}@github.com/AdrienMS-Cap/tst-repo1.git main-production
+          else
+            echo "No changes to commit."
+          fi
