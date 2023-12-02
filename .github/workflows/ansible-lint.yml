@@ -7,10 +7,10 @@ on:
         required: true
         type: string
         description: 'Repository name to perform ansible-lint'
-    branch:
-      required: true
-      type: string
-      description: 'Branch name to check out and push to'
+      branch:
+        required: true
+        type: string
+        description: 'Branch name to check out and push to'
 jobs:
   lint:
     runs-on: ubuntu-latest
