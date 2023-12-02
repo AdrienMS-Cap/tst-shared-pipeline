@@ -39,7 +39,7 @@ jobs:
       - name: Run Ansible Lint
         run: ansible-lint
 
-      - name: Merge to Main-Production
+      - name: Merge 
         if: success()
         run: |
           git config user.name "piptest"
@@ -63,8 +63,8 @@ jobs:
           # Only commit if there are changes
           if ! git diff --quiet
           then
-            git commit -m "Merged branch $BRANCH_NAME into main-production"
-            git push https://${{ secrets.PAT_MAX }}@github.com/${{ github.event.inputs.repository }}/main-production
+            git commit -m "Merged branch $BRANCH_NAME into $BRANCH_NAME"
+            git push https://${{ secrets.PAT_MAX }}@github.com/${{ github.event.inputs.repository }}/$BRANCH_NAME
           else
             echo "No changes to commit on branch $BRANCH_NAME."
           fi
