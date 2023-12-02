@@ -55,4 +55,4 @@ jobs:
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
           git commit -m "Merged branch main into main-production"
-          git push https://${{ secrets.PAT_MAX}}@github.com/XXX/tst-repo1.git main-production
+          git push https://${{ secrets.PAT_MAX}}@github.com/AdrienMS-Cap/tst-repo1.git main-production
