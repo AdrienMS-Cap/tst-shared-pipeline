@@ -56,14 +56,17 @@ jobs:
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
           
-          # Check for changes
           git fetch origin
-          git merge origin/$BRANCH_NAME --no-ff --no-commit -X theirs --allow-unrelated-histories
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "Error: BRANCH_NAME is not set."
+            exit 1
+          fi
 
-          # Only commit if there are changes
+          git merge origin/$BRANCH_NAME --no-ff --no-commit -X theirs --allow-unrelated-histories || { echo "Merge failed"; exit 1; }
+
           if ! git diff --quiet
           then
-            git commit -m "Merged branch $BRANCH_NAME into $BRANCH_NAME"
+            git commit -m "Merged branch $BRANCH_NAME"
             git push https://${{ secrets.PAT_MAX }}@github.com/${{ github.event.inputs.repository }}/$BRANCH_NAME
           else
             echo "No changes to commit on branch $BRANCH_NAME."
