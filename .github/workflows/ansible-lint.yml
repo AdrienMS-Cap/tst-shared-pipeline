@@ -47,6 +47,11 @@ jobs:
       - name: Push to Main-Production
         if: success()
         run: |
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
+            BRANCH=${{ github.head_ref }}
+          else
+            BRANCH=${GITHUB_REF#refs/heads/}
+          fi        
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
           git commit -m "Merged branch main into main-production"
