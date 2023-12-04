@@ -11,6 +11,7 @@ on:
         required: true
         type: string
         description: 'Branch name to check out and push to'
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -18,13 +19,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.event.inputs.repository }}
-          ref: main
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x' 
+          python-version: '3.x'
 
       - name: Install Ansible Lint
         run: |
@@ -39,20 +40,11 @@ jobs:
       - name: Run Ansible Lint
         run: ansible-lint
 
-      - name: Merge 
-        if: success()
-        run: |
-          git config user.name "piptest"
-          git config user.email "emailpi@mail.com"
-          git fetch origin
-          git merge origin/main --no-ff --no-commit -X theirs --allow-unrelated-histories
-
       - name: Push to Branch
         if: success()
         run: |
-          BRANCH_NAME=${{ github.event.inputs.branch }}
+          BRANCH_NAME=${{ inputs.branch }}
           echo "Pushing to branch: $BRANCH_NAME"
-
           git config user.name "piptest"
           git config user.email "emailpi@mail.com"
           
@@ -67,7 +59,6 @@ jobs:
           if ! git diff --quiet
           then
             git commit -m "Merged branch $BRANCH_NAME"
-            git push https://${{ secrets.PAT_MAX }}@github.com/${{ github.event.inputs.repository }}/$BRANCH_NAME
+            git push https://${{ secrets.PAT_MAX }}@github.com/${{ inputs.repository }}/$BRANCH_NAME
           else
             echo "No changes to commit on branch $BRANCH_NAME."
-          fi
