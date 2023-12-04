@@ -1,0 +1,33 @@
+# name: Combined Workflow
+
+# on:
+#   workflow_call:
+#     inputs:
+#       repository:  # Define repository as an input
+#         required: true
+#         type: string
+#       branch:
+#         required: true
+#         type: string
+
+# jobs:
+#   auto-merge:
+#       runs-on: ubuntu-latest
+#       steps:
+#         - name: Checkout Code
+#           uses: actions/checkout@v2
+#           with:
+#             repository: ${{ inputs.repository }}
+#             ref: ${{ inputs.branch }}
+#         - name: Merge PR
+#           if: ${{ success() }}
+#           run: |
+#             git checkout testing
+#             git merge --no-ff --no-edit ${{ github.event.pull_request.head.ref }}
+#             git push origin testing
+#         - name: Close PR
+#           if: ${{ success() }}
+#           run: |
+#             gh pr close ${{ github.event.pull_request.number }} --delete-branch
+#           env:
+#             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
