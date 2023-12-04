@@ -1,11 +1,11 @@
 name: Ansible_Lint
 
 on:
-  workflow_dispatch:
   workflow_run:
-    workflows: [Start_Workflow]
+    workflows: ["Start_Workflow"]  # Ensure this matches the name exactly
     types:
       - completed
+
 
 jobs:
   lint:
