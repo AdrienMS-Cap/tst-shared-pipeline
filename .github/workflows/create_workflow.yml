@@ -14,6 +14,10 @@ jobs:
   ansible_lint:
     runs-on: ubuntu-latest
     steps:
+    - name: Print Repository Input
+      run: |
+        repository_input="${{ github.event.inputs.repository }}"
+        echo "The value of 'repository' input is: $repository_input"        
     - name: Checkout Code
       uses: actions/checkout@v2
       with:
