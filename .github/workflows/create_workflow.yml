@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Print Repository Input
       run: |
-        repository_input="${{ inputs.branch }}"
+        repository_input="${{ inputs.repository }}"
         echo "The value of 'repository' input is: $repository_input"        
 #     - name: Checkout Code
 #       uses: actions/checkout@v2
