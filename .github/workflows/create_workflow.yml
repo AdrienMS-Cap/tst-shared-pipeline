@@ -39,17 +39,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run checks
-        run: |
-          # Add your checks here. For example:
-          # npm install
-          # npm test
       - name: Merge PR
         if: ${{ success() }}
         run: |
-          git checkout master
+          git checkout testing
           git merge --no-ff --no-edit ${{ github.event.pull_request.head.ref }}
-          git push origin master
+          git push origin testing
       - name: Close PR
         if: ${{ success() }}
         run: |
