@@ -1,9 +1,16 @@
+
+Thank you for providing your workflow code. The error you are encountering is due to the fact that the repository variable is not being set properly before it is used in the actions/checkout@v2 step.
+
+To fix this issue, you need to set the repository variable correctly in your workflow. You can do this by passing it as an input to the workflow_call trigger. Here's how you can modify your workflow to set the repository input:
+
+yaml
+Copy code
 name: Combined Workflow
 
 on:
   workflow_call:
     inputs:
-      repository:
+      repository:  # Define repository as an input
         required: true
         type: string
       branch:
@@ -15,18 +22,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        - name: Create Branch and Repository Info Files
-          run: |
-            echo "${{ inputs.branch }}" > branch.txt
-            echo "${{ inputs.repository }}" > repository.txt
-  
-        - name: Upload Branch and Repository Info as Artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: branch-info
-            path: |
-              branch.txt
-              repository.txt
+      - name: Create Branch and Repository Info Files
+        run: |
+          echo "${{ inputs.branch }}" > branch.txt
+          echo "${{ inputs.repository }}" > repository.txt
+
+      - name: Upload Branch and Repository Info as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: branch-info
+          path: |
+            branch.txt
+            repository.txt
 
   ansible_lint:
     needs: start_create_workflow
@@ -37,17 +44,17 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: branch-info
-  
+
         - name: Extract Branch and Repository Info
           run: |
             BRANCH_NAME=$(cat branch.txt)
             REPOSITORY=$(cat repository.txt)
             echo "Branch: $BRANCH_NAME, Repository: $REPOSITORY"
-  
+
         - name: Checkout Code
           uses: actions/checkout@v2
           with:
-            repository: $REPOSITORY
+            repository: ${{ inputs.repository }}  # Use the input here
             ref: $BRANCH_NAME
   
         - name: Set up Python
