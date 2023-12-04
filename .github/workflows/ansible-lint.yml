@@ -2,7 +2,7 @@ name: Ansible Lint
 
 on:
   workflow_run:
-    workflows: ["Start Workflow"]
+    workflows: [Start Workflow]
     types:
       - completed
 

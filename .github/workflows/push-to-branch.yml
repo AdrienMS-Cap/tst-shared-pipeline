@@ -2,7 +2,7 @@ name: Push to Branch
 
 on:
   workflow_run:
-    workflows: ["Ansible Lint"]
+    workflows: [Ansible Lint]
     types:
       - completed
 
