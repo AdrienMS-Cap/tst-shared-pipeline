@@ -3,7 +3,7 @@ name: Ansible_Lint
 on:
   workflow_run:
     workflows: 
-      - "Start_Workflow" 
+      - Start_Workflow
     types:
       - completed
 
