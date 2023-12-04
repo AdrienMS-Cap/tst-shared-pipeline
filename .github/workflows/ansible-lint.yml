@@ -2,11 +2,8 @@ name: Ansible_Lint
 
 on:
   workflow_run:
-    workflows: 
-      - Start_Workflow
-    types:
-      - completed
-
+    workflows: [Start_Workflow]
+    types: [completed]
 
 jobs:
   lint:
