@@ -6,11 +6,9 @@ on:
       repository:
         required: true
         type: string
-        description: 'Repository name for subsequent workflows'
       branch:
         required: true
         type: string
-        description: 'Branch name for subsequent workflows'
 
 jobs:
   setup:
@@ -18,8 +16,8 @@ jobs:
     steps:
       - name: Create Branch and Repository Info Files
         run: |
-          echo "${{ github.event.inputs.branch }}" > branch.txt
-          echo "${{ github.event.inputs.repository }}" > repository.txt
+          echo "${{ inputs.branch }}" > branch.txt
+          echo "${{ inputs.repository }}" > repository.txt
 
       - name: Upload Branch and Repository Info as Artifact
         uses: actions/upload-artifact@v2
