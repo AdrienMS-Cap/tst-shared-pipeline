@@ -42,9 +42,10 @@ jobs:
 
     steps:
       - name: Checkout to Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.repository }}
+          repository: ${{ github.event.inputs.repository }}
+          ref: ${{ github.event.inputs.branch }}
           token: ${{ github.token  }}
 
       - name: Push to Branch
