@@ -17,7 +17,7 @@ jobs:
         run: |
           gh pr merge ${{ inputs.pull_request_number }} --repo ${{ inputs.repository }} --squash --auto
         env:
-          GH_TOKEN: ${{ secrets.PAT_MAX }}
+          GH_TOKEN: ${{ github.token }}
 
 
   
