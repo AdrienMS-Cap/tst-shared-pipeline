@@ -15,4 +15,4 @@ jobs:
         run: |
           gh pr merge ${{ inputs.pull_request_number }} --repo ${{ github.repository }} --squash
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ github.token  }}
