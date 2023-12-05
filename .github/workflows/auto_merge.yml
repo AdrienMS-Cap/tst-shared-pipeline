@@ -1,4 +1,4 @@
-name: Approve PR Workflow
+name: Auto Merge PR
 
 on:
   workflow_call:
@@ -8,13 +8,14 @@ on:
         type: number
 
 jobs:
-  approve-pr:
+  auto-merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Approve Pull Request tst
-        run: | # approve the pull request
-          curl --request POST \
-          --url https://api.github.com/repos/${{github.repository}}/pulls/${{inputs.pull_request_number }}/reviews \
-          --header 'authorization: Bearer ${{ secrets.GH_TOKEN }}' \
-          --header 'content-type: application/json' \
-          -d '{"event":"APPROVE"}'
+      - name: Merge Pull Request
+        run: |
+          gh pr merge ${{ inputs.pull_request_number }} --repo ${{ github.repository }} --squash --auto
+        env:
+          GH_TOKEN: ${{ github.token  }}
+
+
+  
