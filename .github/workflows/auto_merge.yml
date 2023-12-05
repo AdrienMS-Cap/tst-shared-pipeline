@@ -3,24 +3,16 @@ name: Auto Merge PR
 on:
   workflow_call:
     inputs:
-      repository:
+      pull_request_number:
         required: true
-        type: string
-      branch:
-        required: true
-        type: string
+        type: integer
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.branch }}
-      - name: Merge Pull Request from repo1
+      - name: Merge Pull Request
         run: |
-          gh pr merge ${{ github.event.pull_request.number }} --repo ${{ inputs.repository }} --squash
+          gh pr merge ${{ inputs.pull_request_number }} --repo ${{ github.repository }} --squash
         env:
-          GH_TOKEN: ${{ secrets.PAT_MAX }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
