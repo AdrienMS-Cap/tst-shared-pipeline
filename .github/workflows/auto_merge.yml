@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Merge Pull Request
         run: |
-          gh pr merge ${{ inputs.pull_request_number }} --repo ${{ inputs.repository }} --squash --auto
+          gh pr merge ${{ inputs.pull_request_number }} --repo ${{ inputs.repository }} --squash
         env:
           GH_TOKEN: ${{ github.token }}
 
