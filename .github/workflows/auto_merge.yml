@@ -10,7 +10,7 @@ on:
         required: true
         type: string        
 jobs:
-  auto-merge:
+  auto-merge-job:
     runs-on: ubuntu-latest
     steps:
       - name: Merge Pull Request
