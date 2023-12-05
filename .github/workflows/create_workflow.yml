@@ -25,6 +25,6 @@ jobs:
           find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/'
 
       - name: run-ansible-lint
-        uses: ansible/ansible-lint@v6.22.0
+        uses: ansible/ansible-lint@v6.22.1
         # with:
         #   args: --profile production --exclude .github/
