@@ -1,0 +1,16 @@
+name: Verification Success Passed
+
+on:
+  workflow_call:
+    inputs:
+      pull_request_number:
+        required: true
+        type: number
+      repository:  # Define repository as an input
+        required: true
+        type: string        
+jobs:
+  auto-merge-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: OK status
