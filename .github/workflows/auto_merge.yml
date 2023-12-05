@@ -1,4 +1,4 @@
-name: Auto Merge PR
+name: Approve PR Workflow
 
 on:
   workflow_call:
@@ -8,11 +8,11 @@ on:
         type: number
 
 jobs:
-  auto-merge:
+  approve-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Merge Pull Request
+      - name: Approve Pull Request
         run: |
-          gh pr merge ${{ inputs.pull_request_number }} --repo ${{ github.repository }} --squash --auto
+          gh pr review --approve --repo ${{ github.repository }} ${{ inputs.pull_request_number }}
         env:
-          GH_TOKEN: ${{ github.token  }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
