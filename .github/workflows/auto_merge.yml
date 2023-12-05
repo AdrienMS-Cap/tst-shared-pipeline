@@ -11,7 +11,7 @@ jobs:
   approve-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Approve Pull Request
+      - name: Approve Pull Request tst
         run: | # approve the pull request
           curl --request POST \
           --url https://api.github.com/repos/${{github.repository}}/pulls/${{inputs.pull_request_number }}/reviews \
