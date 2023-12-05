@@ -5,7 +5,7 @@ on:
     inputs:
       pull_request_number:
         required: true
-        type: integer
+        type: number
 
 jobs:
   auto-merge:
