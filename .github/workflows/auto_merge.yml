@@ -6,7 +6,9 @@ on:
       pull_request_number:
         required: true
         type: number
-
+      repository:  # Define repository as an input
+        required: true
+        type: string        
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
