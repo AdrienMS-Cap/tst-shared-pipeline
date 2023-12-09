@@ -19,5 +19,3 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-
-# gh pr merge ${{ inputs.pull_request_number }} --repo ${{ inputs.repository }} --squash --auto
