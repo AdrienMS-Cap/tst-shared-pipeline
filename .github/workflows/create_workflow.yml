@@ -3,7 +3,7 @@ name: Combined Workflow
 on:
   workflow_call:
     inputs:
-      repository:  # Define repository as an input
+      repository:
         required: true
         type: string
       branch:
