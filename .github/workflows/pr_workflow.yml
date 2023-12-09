@@ -2,9 +2,10 @@ name: PR Workflow
 
 on:
   workflow_call:
-    secrets:
+    inputs:
       github-token:
         required: true
+        type: string
 
 jobs:
   merge-on-success:
