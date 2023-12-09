@@ -1,14 +1,8 @@
-name: Combined Workflow
+name: Combined CI/CD Workflow
 
 on:
-  workflow_call:
-    inputs:
-      repository:
-        required: true
-        type: string
-      branch:
-        required: true
-        type: string
+  push:
+  pull_request:
 
 jobs:
   ansible_lint:
@@ -16,15 +10,48 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.branch }}
+
       - name: List Files to be Linted
         run: |
           echo "Listing all YAML files that will be linted, excluding '.github' folder:"
           find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/'
 
-      - name: run-ansible-lint
+      - name: Run Ansible Lint
         uses: ansible/ansible-lint@v6.22.1
         with:
           args: --profile production --exclude .github/
+
+  merge-on-success:
+    runs-on: ubuntu-latest
+    needs: ansible_lint
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
+    steps:
+      - name: Merge PR
+        if: success()
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            })
+
+  close-on-failure:
+    runs-on: ubuntu-latest
+    needs: ansible_lint
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
+    steps:
+      - name: Close PR
+        if: failure()
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              state: "closed"
+            })
