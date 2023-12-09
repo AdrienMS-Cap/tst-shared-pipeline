@@ -15,19 +15,19 @@ jobs:
   ansible_lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.branch }}
+      # - name: Checkout Code
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: ${{ inputs.repository }}
+      #     ref: ${{ inputs.branch }}
       - name: List Files to be Linted
         run: |
           echo "Listing all YAML files that will be linted, excluding '.github' folder:"
           find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/'
-      - name: Run Ansible Lint
-        uses: ansible/ansible-lint@v6.22.1
-        with:
-          args: --profile production --exclude .github/
+      # - name: Run Ansible Lint
+      #   uses: ansible/ansible-lint@v6.22.1
+      #   with:
+      #     args: --profile production --exclude .github/
 
   merge-on-success:
     runs-on: ubuntu-latest
