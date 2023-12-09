@@ -1,0 +1,62 @@
+name: PR Workflow
+
+on:
+  workflow_call:
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  merge-on-success:
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - name: Merge PR
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.github-token }}
+          script: |
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              state: "closed"
+            })
+
+  close-on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - name: Close PR
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.github-token }}
+          script: |
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              state: "closed"
+            })
+
+# name: Auto Merge PR
+
+# on:
+#   workflow_call:
+#     inputs:
+#       pull_request_number:
+#         required: true
+#         type: number
+#       repository:  # Define repository as an input
+#         required: true
+#         type: string        
+# jobs:
+#   auto-merge-job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Merge Pull Request
+#         run: |
+#           gh pr merge ${{ inputs.pull_request_number }} --repo ${{ inputs.repository }} --squash
+#         env:
+#           GH_TOKEN: ${{ github.token }}
+
