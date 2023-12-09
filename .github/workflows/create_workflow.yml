@@ -26,5 +26,5 @@ jobs:
 
       - name: run-ansible-lint
         uses: ansible/ansible-lint@v6.22.1
-        # with:
-        #   args: --profile production --exclude .github/
+        with:
+          args: --profile production --exclude .github/
