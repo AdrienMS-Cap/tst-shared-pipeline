@@ -24,7 +24,6 @@ jobs:
           echo "Printing all environment variables:"
           printenv  
   ansible_lint:
-    if: ${{ github.event_name != 'pull_request' }}    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
