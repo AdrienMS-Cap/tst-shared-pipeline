@@ -12,6 +12,17 @@ on:
 permissions: write-all
 
 jobs:
+  print-environment-variables:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Print All Variables
+        run: |
+          echo "Printing all environment variables:"
+          printenv  
   ansible_lint:
     if: ${{ github.event_name != 'pull_request' }}    
     runs-on: ubuntu-latest
