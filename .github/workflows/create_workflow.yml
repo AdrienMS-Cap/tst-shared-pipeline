@@ -35,15 +35,15 @@ jobs:
     needs: ansible_lint
     if: ${{ github.event_name == 'pull_request' }}    
     steps:
-      - name: Merge PR
-        if: success()
-        uses: actions/github-script@v5
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          github-token: ${{ github.token }}
-          script: |
-            github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number
-            })
+          repository: ${{ github.event.inputs.repository }}
+          ref: ${{ github.event.inputs.pull_request_ref }}
 
+      - name: Merge Pull Request
+        run: |
+          curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" 
+          https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/merge
