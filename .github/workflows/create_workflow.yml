@@ -65,4 +65,4 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -X DELETE \
-            "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.event.inputs.branch }}"      
+            "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref  }}" 
