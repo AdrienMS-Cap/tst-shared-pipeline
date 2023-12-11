@@ -34,7 +34,12 @@ jobs:
       - name: List Files to be Linted
         run: |
           echo "Listing all YAML files that will be linted, excluding '.github' folder:"
-          find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/'
+          files=$(find . -name '*.yml' -or -name '*.yaml' | grep -v './.github/' || true)
+          if [ -z "$files" ]; then
+            echo "No YAML files found for linting."
+          else
+            echo "$files"
+          fi
       - name: Run Ansible Lint
         uses: ansible/ansible-lint@v6.22.1
         with:
