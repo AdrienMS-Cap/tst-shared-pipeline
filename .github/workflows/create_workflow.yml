@@ -67,7 +67,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -X PUT \
-            -d '{"merge_method":"squash", "commit_title": "This pull request was treated automatically by a GitHub action.\n\n${{ github.event.pull_request.title }} - Triggered by: '${{ github.actor }}'"}' \
+            -d '{"merge_method":"squash"}' \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge"
 
       - name: Delete Merged Branch
