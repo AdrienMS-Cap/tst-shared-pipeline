@@ -14,8 +14,8 @@ permissions: write-all
 jobs:
   print-environment-variables:
     runs-on: ubuntu-latest
-
     steps:
+  
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -23,14 +23,17 @@ jobs:
         run: |
           echo "Printing all environment variables:"
           printenv  
+
   ansible_lint:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
+
       - name: List Files to be Linted
         run: |
           echo "Listing all YAML files that will be linted, excluding '.github' folder:"
@@ -40,6 +43,7 @@ jobs:
           else
             echo "$files"
           fi
+
       - name: Run Ansible Lint
         uses: ansible/ansible-lint@v6.22.1
         with:
@@ -50,6 +54,7 @@ jobs:
     needs: ansible_lint
     if: ${{ github.event_name == 'pull_request' }}    
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -62,8 +67,9 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -X PUT \
-            -d '{"merge_method":"squash"} , "commit_title": "${{ github.event.pull_request.title }}"}' \
+            -d '{"merge_method":"squash", "commit_title": "This pull request was treated automatically by a GitHub action.\n\n${{ github.event.pull_request.title }} - Triggered by: '${{ github.actor }}'"}' \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge"
+
       - name: Delete Merged Branch
         run: |
           curl -L \
