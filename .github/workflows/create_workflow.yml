@@ -49,6 +49,29 @@ jobs:
         with:
           args: --profile production --exclude .github/
 
+  readme_change_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get initial commit hash
+        id: initial_commit
+        run: |
+          echo "::set-output name=hash::$(git rev-list --max-parents=0 HEAD)"
+          
+      - name: Check if README.md changed since initial commit
+        run: |
+          if git diff --exit-code ${{ steps.initial_commit.outputs.hash }} -- README.md
+          then
+            echo "README.md has not changed since the initial commit."
+          else
+            echo "README.md has changed since the initial commit."
+          fi
+
+
   merge-on-success:
     runs-on: ubuntu-latest
     needs: ansible_lint
