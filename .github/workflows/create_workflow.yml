@@ -75,14 +75,20 @@ jobs:
   secrets_scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout reusable workflow directory
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-
+        with:
+          repository: AdrienMS-Cap/tst-shared-pipeline
+          path: reusable-workflow-repo
+      
       - name: Run Python script
-        run: python scripts/scan_secrets.py
+        run: ${GITHUB_WORKSPACE}/reusable-workflow-repo/scripts/tag_verify.sh
+
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+
+      # - name: Run Python script
+      #   run: python scripts/scan_secrets.py
   
   merge-on-success:
     runs-on: ubuntu-latest
