@@ -12,13 +12,13 @@ def find_sensitive_info(file_path, sensitive_patterns):
                 return True
     return False
 
-def scan_for_sensitive_info(sensitive_patterns):
+def scan_for_sensitive_info(sensitive_patterns, script_file_path):
     error_found = False
 
     for root, dirs, files in os.walk("."):
-        # Exclude directories and files that start with a dot
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
-        files = [f for f in files if not f.startswith('.')]
+        # Exclude the script file and directories/files that start with a dot
+        dirs[:] = [d for d in dirs if not d.startswith('.') and not os.path.samefile(os.path.join(root, d), script_file_path)]
+        files = [f for f in files if not f.startswith('.') and not os.path.samefile(os.path.join(root, f), script_file_path)]
 
         for file in files:
             file_path = os.path.join(root, file)
@@ -47,7 +47,10 @@ def main():
         "ssh-rsa",
     ]
 
-    error_found = scan_for_sensitive_info(sensitive_patterns)
+    # Get the path of the script file
+    script_file_path = os.path.abspath(__file__)
+
+    error_found = scan_for_sensitive_info(sensitive_patterns, script_file_path)
 
     if error_found:
         sys.exit(1)
