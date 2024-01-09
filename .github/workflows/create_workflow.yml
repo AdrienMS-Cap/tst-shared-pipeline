@@ -107,8 +107,16 @@ jobs:
           sudo apt install -y shellcheck
   
       - name: Run ShellCheck
-        run: find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warnign --enable=all {} \;
-
+        run: |
+          output_shellcheck=$(find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warnign --enable=all {} \;)
+          echo "$output"
+          echo "::set-output name=shellcheck::${output}"          
+      - name: Check ShellCheck output
+        run: |
+          if [[ -n "${{ steps.shellcheck.outputs.output_shellcheck }}" ]]; then
+            echo "ShellCheck found issues in the scripts."
+            exit 1
+          fi
   merge-on-success:
     name: Merge on Success
     runs-on: ubuntu-latest
