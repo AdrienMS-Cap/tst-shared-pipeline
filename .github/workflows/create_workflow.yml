@@ -72,7 +72,6 @@ jobs:
           else
             echo "README.md has changed since the initial commit."
           fi
-        shellCheck
 
   secrets_scan:
     name: Run Secrets Scan
