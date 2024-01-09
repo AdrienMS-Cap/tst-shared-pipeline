@@ -5,12 +5,20 @@ import sys
 def find_sensitive_info(file_path, sensitive_patterns):
     with open(file_path, 'r', encoding='utf-8') as file:
         print("Processing file: {}".format(file_path))
-        # Set the environment variable for the test report
         content = file.read()
         for pattern in sensitive_patterns:
-            if re.search(pattern, content, re.IGNORECASE):
-                return True
+            matches = re.finditer(rf"{pattern}\s*:\s*(\S+)", content, re.IGNORECASE)
+            for match in matches:
+                value = match.group(1)
+                if not is_variable(value):
+                    print(f"ALERT - Sensitive information found in file: {file_path}, Value: {value}")
+                    return True
     return False
+
+def is_variable(value):
+    # Use regex to check if the value contains only strings
+    string_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
+    return not string_pattern.match(value)
 
 def scan_for_sensitive_info(sensitive_patterns, script_file_path):
     error_found = False
@@ -23,7 +31,6 @@ def scan_for_sensitive_info(sensitive_patterns, script_file_path):
         for file in files:
             file_path = os.path.join(root, file)
             if find_sensitive_info(file_path, sensitive_patterns):
-                print("ALERT - Sensitive information found in file:{}".format(file_path))
                 error_found = True
 
     return error_found
