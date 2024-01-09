@@ -80,7 +80,8 @@ jobs:
         with:
           repository: AdrienMS-Cap/tst-shared-pipeline
           path: reusable-workflow-repo
-      
+      - name: Run ls
+        run: ls     
       - name: Run Python script
         run: ${GITHUB_WORKSPACE}/reusable-workflow-repo/scripts/tag_verify.sh
 
