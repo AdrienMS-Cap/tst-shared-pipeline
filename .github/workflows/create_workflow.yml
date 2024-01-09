@@ -100,8 +100,8 @@ jobs:
 
       - name: Run ls
         run: ls       
-      # - name: Run Python script
-      #   run: python ${GITHUB_WORKSPACE}/reusable-workflow-repo/scripts/scan_secrets.py
+      - name: Run Python script
+        run: python scan_secrets.py
 
       # - name: Set up Python
       #   uses: actions/setup-python@v5
