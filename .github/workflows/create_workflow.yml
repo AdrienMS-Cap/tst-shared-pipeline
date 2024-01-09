@@ -108,12 +108,12 @@ jobs:
   
       - name: Run ShellCheck
         run: |
-          output_shellcheck=$(find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warnign --enable=all {} \;)
-          echo "$output"
-          echo "::set-output name=shellcheck::${output}"          
+          output_shellcheck=$(find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warning --enable=all {} \;)
+          echo "$output_shellcheck"
+          echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV 
       - name: Check ShellCheck output
         run: |
-          if [[ -n "${{ steps.shellcheck.outputs.output_shellcheck }}" ]]; then
+          if [[ -n "${{ env.shellcheck }}" ]]; then
             echo "ShellCheck found issues in the scripts."
             exit 1
           fi
