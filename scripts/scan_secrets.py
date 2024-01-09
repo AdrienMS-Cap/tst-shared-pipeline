@@ -6,6 +6,7 @@ from gitignore_parser import parse_gitignore
 def find_sensitive_info(file_path, sensitive_patterns):
     with open(file_path, 'r', encoding='utf-8') as file:
         print("Processing file: {}".format(file_path))
+        print(f'::set-output name=test_report::{file_path}')
         content = file.read()
         for pattern in sensitive_patterns:
             if re.search(pattern, content, re.IGNORECASE):
