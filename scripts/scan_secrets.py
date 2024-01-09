@@ -3,7 +3,7 @@ import os
 import argparse
 import sys
 
-def scan_directory(path: str) -> None:
+def scan_directory(path: str, script_path: str) -> None:
     """Scan a directory for sensitive data."""
     sensitive_patterns = [
         "password",
@@ -33,6 +33,9 @@ def scan_directory(path: str) -> None:
         
         for file in files:
             file_path = os.path.join(root, file)
+            # Ignore the script itself
+            if os.path.abspath(file_path) == script_path:
+                continue
             try:
                 with open(file_path, 'r') as f:
                     print("Scanning file: {}.".format(file_path))
@@ -56,7 +59,8 @@ def main():
     parser = argparse.ArgumentParser(description='Scan a directory for sensitive data.')
     parser.add_argument('path', type=str, help='The path to the directory you want to scan.')
     args = parser.parse_args()
-    scan_directory(args.path)
+    script_path = os.path.abspath(__file__)
+    scan_directory(args.path, script_path)
 
 if __name__ == "__main__":
     main()
