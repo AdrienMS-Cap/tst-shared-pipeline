@@ -6,7 +6,6 @@ def find_sensitive_info(file_path, sensitive_patterns):
     with open(file_path, 'r', encoding='utf-8') as file:
         print("Processing file: {}".format(file_path))
         # Set the environment variable for the test report
-        os.environ["TEST_REPORT"] = file_path
         content = file.read()
         for pattern in sensitive_patterns:
             if re.search(pattern, content, re.IGNORECASE):
@@ -24,7 +23,7 @@ def scan_for_sensitive_info(sensitive_patterns, script_file_path):
         for file in files:
             file_path = os.path.join(root, file)
             if find_sensitive_info(file_path, sensitive_patterns):
-                print(f"Sensitive information found in file: {file_path}")
+                print("ALERT - Sensitive information found in file:{}".format(file_path))
                 error_found = True
 
     return error_found
