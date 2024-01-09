@@ -32,6 +32,7 @@ def scan_for_sensitive_info(sensitive_patterns, script_file_path):
 def main():
     sensitive_patterns = [
         "password",
+        "pwd",
         "api",
         "token",
         "secret",
