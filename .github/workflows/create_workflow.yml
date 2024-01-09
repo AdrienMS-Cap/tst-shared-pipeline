@@ -90,7 +90,7 @@ jobs:
           https://api.github.com/repos/AdrienMS-Cap/tst-shared-pipeline/contents/scripts/scan_secrets.py
    
       - name: Run Python script
-        run: python scan_secrets.py
+        run: python scan_secrets.py ./
   
   merge-on-success:
     runs-on: ubuntu-latest
