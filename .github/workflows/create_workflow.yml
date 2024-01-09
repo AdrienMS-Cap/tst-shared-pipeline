@@ -122,6 +122,7 @@ jobs:
   psscriptanalyzer:
     name: Run PSScriptAnalyzer
     runs-on: windows-latest
+    steps:
       - name: Run PSScriptAnalyzer
         uses: microsoft/psscriptanalyzer-action@v1.1
         with:
