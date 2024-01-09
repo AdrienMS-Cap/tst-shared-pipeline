@@ -107,7 +107,7 @@ jobs:
           sudo apt install -y shellcheck
   
       - name: Run ShellCheck
-        run: shellcheck $(find $(pwd)/myscripts/ -name "*.sh")
+        run: find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=info --enable=all {} \;
 
   merge-on-success:
     name: Merge on Success
