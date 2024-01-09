@@ -88,17 +88,9 @@ jobs:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -O \
           https://api.github.com/repos/AdrienMS-Cap/tst-shared-pipeline/contents/scripts/scan_secrets.py
-
-      - name: Run ls
-        run: ls       
+   
       - name: Run Python script
         run: python scan_secrets.py
-
-      # - name: Set up Python
-      #   uses: actions/setup-python@v5
-
-      # - name: Run Python script
-      #   run: python scripts/scan_secrets.py
   
   merge-on-success:
     runs-on: ubuntu-latest
