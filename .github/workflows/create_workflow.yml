@@ -81,9 +81,9 @@ jobs:
           repository: AdrienMS-Cap/tst-shared-pipeline
           path: reusable-workflow-repo
       - name: Run ls
-        run: ls     
+        run: ls ./reusable-workflow-repo
       - name: Run Python script
-        run: ${GITHUB_WORKSPACE}/reusable-workflow-repo/scripts/tag_verify.sh
+        run: ${GITHUB_WORKSPACE}/reusable-workflow-repo/scripts/scan_secrets.sh
 
       # - name: Set up Python
       #   uses: actions/setup-python@v5
