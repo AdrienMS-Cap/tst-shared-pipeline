@@ -1,7 +1,6 @@
 import os
 import re
 import sys
-from gitignore_parser import parse_gitignore
 
 def find_sensitive_info(file_path, sensitive_patterns):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -13,13 +12,13 @@ def find_sensitive_info(file_path, sensitive_patterns):
                 return True
     return False
 
-def scan_for_sensitive_info(sensitive_patterns, gitignore_parser):
+def scan_for_sensitive_info(sensitive_patterns):
     error_found = False
 
     for root, dirs, files in os.walk("."):
         # Exclude directories and files that start with a dot
-        dirs[:] = [d for d in dirs if not d.startswith('.') and not gitignore_parser(root, d)]
-        files = [f for f in files if not f.startswith('.') and not gitignore_parser(root, f)]
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        files = [f for f in files if not f.startswith('.')]
 
         for file in files:
             file_path = os.path.join(root, file)
@@ -48,14 +47,7 @@ def main():
         "ssh-rsa",
     ]
 
-    # Load .gitignore and create a parser
-    gitignore_path = os.path.join(os.getcwd(), '.gitignore')
-    if os.path.exists(gitignore_path):
-        gitignore_parser = parse_gitignore(gitignore_path)
-    else:
-        gitignore_parser = lambda x, y: False
-
-    error_found = scan_for_sensitive_info(sensitive_patterns, gitignore_parser)
+    error_found = scan_for_sensitive_info(sensitive_patterns)
 
     if error_found:
         sys.exit(1)

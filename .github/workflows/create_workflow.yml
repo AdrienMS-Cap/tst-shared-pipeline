@@ -75,15 +75,6 @@ jobs:
   secrets_scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout reusable workflow directory
-        uses: actions/checkout@v4
-        with:
-          repository: AdrienMS-Cap/tst-shared-pipeline
-          path: reusable-workflow-repo
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ${GITHUB_WORKSPACE}/reusable-workflow-repo/requirements.txt
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
