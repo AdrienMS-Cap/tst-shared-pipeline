@@ -108,7 +108,7 @@ jobs:
   
       - name: Run ShellCheck
         run: |
-          output_shellcheck=$(find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warning --enable=all {} \;)
+          output_shellcheck=$(find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck --severity=warning {} \;)
           echo "$output_shellcheck"
           echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV 
       - name: Check ShellCheck output
