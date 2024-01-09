@@ -119,15 +119,15 @@ jobs:
       #       echo "ShellCheck found issues in the scripts."
       #       exit 1
       #     fi
-psscriptanalyzer:
-  name: Run PSScriptAnalyzer
-  runs-on: ubuntu-latest      
-    - name: Run PSScriptAnalyzer
-      uses: microsoft/psscriptanalyzer-action@v1.1
-      with:
-        path: .\\
-        recurse: true
-        output: results.sarif
+  psscriptanalyzer:
+    name: Run PSScriptAnalyzer
+    runs-on: ubuntu-latest      
+      - name: Run PSScriptAnalyzer
+        uses: microsoft/psscriptanalyzer-action@v1.1
+        with:
+          path: .\\
+          recurse: true
+          output: results.sarif
 
   merge-on-success:
     name: Merge on Success
