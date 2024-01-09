@@ -17,9 +17,9 @@ def scan_for_sensitive_info(sensitive_patterns, gitignore_parser):
     error_found = False
 
     for root, dirs, files in os.walk("."):
-        # Filter out files and directories ignored by .gitignore
-        dirs[:] = [d for d in dirs if not gitignore_parser(root, d)]
-        files = [f for f in files if not gitignore_parser(root, f)]
+        # Exclude directories and files that start with a dot
+        dirs[:] = [d for d in dirs if not d.startswith('.') and not gitignore_parser(root, d)]
+        files = [f for f in files if not f.startswith('.') and not gitignore_parser(root, f)]
 
         for file in files:
             file_path = os.path.join(root, file)
@@ -54,7 +54,6 @@ def main():
         gitignore_parser = parse_gitignore(gitignore_path)
     else:
         gitignore_parser = lambda x, y: False
-
 
     error_found = scan_for_sensitive_info(sensitive_patterns, gitignore_parser)
 
