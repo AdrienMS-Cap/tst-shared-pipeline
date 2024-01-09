@@ -9,16 +9,10 @@ def find_sensitive_info(file_path, sensitive_patterns):
         for pattern in sensitive_patterns:
             matches = re.finditer(rf"{pattern}\s*:\s*(\S+)", content, re.IGNORECASE)
             for match in matches:
-                value = match.group(1)
-                if not is_variable(value):
-                    print(f"ALERT - Sensitive information found in file: {file_path}, Value: {value}")
-                    return True
+                line_number = content.count('\n', 0, match.start()) + 1
+                print("ALERT - Sensitive information found in file: {}, Line {}".format(file_path, line_number))
+                return True
     return False
-
-def is_variable(value):
-    # Use regex to check if the value contains only strings
-    string_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
-    return not string_pattern.match(value)
 
 def scan_for_sensitive_info(sensitive_patterns, script_file_path):
     error_found = False
