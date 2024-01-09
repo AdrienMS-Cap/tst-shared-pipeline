@@ -107,8 +107,8 @@ jobs:
           sudo apt install -y shellcheck
   
       - name: Run ShellCheck
-        run: find . -type f -name "*.sh" -exec shellcheck {} +
-        
+        run: find . -type f -name "*.sh" -exec echo {} \; -exec shellcheck {} \;
+
   merge-on-success:
     name: Merge on Success
     runs-on: ubuntu-latest
