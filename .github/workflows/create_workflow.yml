@@ -129,7 +129,6 @@ jobs:
           severity: '"Error", "Warning"'
           recurse: true
           enableExit: true
-          # output: 'results.sarif'
 
   merge-on-success:
     name: Merge on Success
