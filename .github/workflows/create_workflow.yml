@@ -132,8 +132,8 @@ jobs:
       - name: Run PSScriptAnalyzer
         run: |
           Get-ChildItem -Recurse -Filter "*.ps1" | ForEach-Object {
-            Write-Host "Analyzing $($_.FullName)"
-            Invoke-ScriptAnalyzer -Path $_.FullName
+            Write-Host "Analyzing $($_.FullName)" 
+            Invoke-ScriptAnalyzer -Path $_.FullName -EnableExit -Severity Warning
           }
 
   merge-on-success:
