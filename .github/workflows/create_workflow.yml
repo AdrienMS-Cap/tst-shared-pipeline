@@ -122,20 +122,20 @@ jobs:
     name: Run PSScriptAnalyzer
     runs-on: windows-latest
     steps:
+      - name: Setup PowerShell
+        uses: PowerShell/setup-powershell@v1
+
+      - name: Install PSScriptAnalyzer
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Confirm:$false
+  
       - name: Run PSScriptAnalyzer
-        uses: microsoft/psscriptanalyzer-action@v1.1
-        with:
-          path: '.\'
-          severity: '"Error", "Warning","Information","ParseError"'
-          recurse: true
-          enableExit: true
-          output: results.sarif
-      
-      # Upload the SARIF file generated in the previous step
-      - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
+        run: |
+          Get-ChildItem -Recurse -Filter "*.ps1" | ForEach-Object {
+            Write-Host "Analyzing $($_.FullName)"
+            Invoke-ScriptAnalyzer -Path $_.FullName
+          }
+
   merge-on-success:
     name: Merge on Success
     runs-on: ubuntu-latest
