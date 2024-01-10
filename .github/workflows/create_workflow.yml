@@ -125,9 +125,11 @@ jobs:
       - name: Run PSScriptAnalyzer
         uses: microsoft/psscriptanalyzer-action@v1.1
         with:
-          path: .\\
+          path: '.\'
+          severity: '"Error", "Warning"'
           recurse: true
-          output: results.sarif
+          enableExit: true
+          # output: 'results.sarif'
 
   merge-on-success:
     name: Merge on Success
