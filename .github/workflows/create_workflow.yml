@@ -139,7 +139,7 @@ jobs:
   merge-on-success:
     name: Merge on Success
     runs-on: ubuntu-latest
-    needs: [ansible_lint,readme_change_check,secrets_scan,shellcheck]
+    needs: [ansible_lint,readme_change_check,secrets_scan,shellcheck,psscriptanalyzer]
     if: ${{ github.event_name == 'pull_request' }}    
     steps:
 
