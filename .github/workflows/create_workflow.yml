@@ -111,7 +111,7 @@ jobs:
         run: |
           output_shellcheck=$(find . -type f -name "*.sh" -exec shellcheck --severity=warning {} \;)
           echo "$output_shellcheck"
-        # echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV           
+          echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV           
       # - name: Check ShellCheck output
       #   run: |
       #     if [[ -n "${{ env.shellcheck }}" ]]; then
