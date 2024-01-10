@@ -122,8 +122,6 @@ jobs:
     name: Run PSScriptAnalyzer
     runs-on: windows-latest
     steps:
-      - name: Setup PowerShell
-        uses: PowerShell/setup-powershell@v1
 
       - name: Install PSScriptAnalyzer
         run: |
