@@ -126,7 +126,7 @@ jobs:
         uses: microsoft/psscriptanalyzer-action@v1.1
         with:
           path: '.\'
-          severity: '"Error", "Warning"'
+          severity: '"Error", "Warning","Info"'
           recurse: true
           enableExit: true
 
