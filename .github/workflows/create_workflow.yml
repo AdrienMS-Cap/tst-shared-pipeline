@@ -110,15 +110,14 @@ jobs:
       - name: Run ShellCheck
         run: |
           output_shellcheck=$(find . -type f -name "*.sh" -exec shellcheck --severity=warning {} \;)
-
-        # echo "$output_shellcheck"
-        # echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV           
-      # - name: Check ShellCheck output
-      #   run: |
-      #     if [[ -n "${{ env.shellcheck }}" ]]; then
-      #       echo "ShellCheck found issues in the scripts."
-      #       exit 1
-      #     fi
+          echo "$output_shellcheck"
+          echo "shellcheck=${output_shellcheck}" >> $GITHUB_ENV           
+      - name: Check ShellCheck output
+        run: |
+          if [[ -n "${{ env.shellcheck }}" ]]; then
+            echo "ShellCheck found issues in the scripts."
+            exit 1
+          fi
   psscriptanalyzer:
     name: Run PSScriptAnalyzer
     runs-on: windows-latest
